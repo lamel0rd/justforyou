@@ -1,0 +1,159 @@
+import { useState, useRef, useEffect } from 'react'
+import './App.css'
+import i1 from './assets/i1.png'
+import i2 from './assets/i2.png'
+import i3 from './assets/i3.png'
+import i4 from './assets/i4.png'
+import i5 from './assets/i5.png'
+import i6 from './assets/i6.png'
+import i9w from './assets/i9w.png'
+import i10w from './assets/i10w.png'
+import i11w from './assets/i11w.png'
+import i12w from './assets/i12w.png'
+import i13w from './assets/i13w.png'
+
+const stickerImgs = [i3, i4, i6, i10w, i11w, i12w, i13w]
+
+const messages = [
+  {
+    title: "Happy Birthday, OJAS! ",
+    text: "msg1",
+  },
+  {
+    title: "t1",
+    text: "msg2",
+  },
+  {
+    title: "t2",
+    text: "msg3",
+  },
+  {
+    title: "t3",
+    text: "msg4",
+  },
+  {
+    title: "t4",
+    text: "msg4",
+  },
+]
+
+const stickers = [
+  { id: 3,  top: '55%',   left: '2%',    right: 'auto', bottom: 'auto', rotate: '6deg',   w: 176, h: 176 },
+  { id: 4,  top: '5%',    left: 'auto',  right: '0%',   bottom: 'auto', rotate: '-10deg', w: 176, h: 176 },
+  { id: 6,  top: 'auto',  left: '18%',   right: 'auto', bottom: '7%',   rotate: '11deg',  w: 176, h: 176 },
+  { id: 8,  top: '63%',   left: 'auto',  right: '0%',   bottom: 'auto', rotate: '18deg',  w: 176, h: 176 },
+  { id: 9,  top: '26%',   left: '1%',    right: 'auto', bottom: 'auto', rotate: '-7deg',  w: 176, h: 176 },
+  { id: 10, top: '5%',    left: '2%',    right: 'auto', bottom: 'auto', rotate: '14deg',  w: 176, h: 176 },
+  { id: 11, top: 'auto',  left: 'auto',  right: '0%',   bottom: '3%',   rotate: '-9deg',  w: 176, h: 176 },
+]
+
+function App() {
+  const [current, setCurrent] = useState(0)
+  const [dir, setDir] = useState(null)
+  const [positions, setPositions] = useState({})
+  const dragging = useRef(null)
+
+  const go = (next) => {
+    setDir(next > current ? 'down' : 'up')
+    setTimeout(() => {
+      setCurrent(next)
+      setDir(null)
+    }, 260)
+  }
+
+  const goNext = () => go((current + 1) % messages.length)
+  const goPrev = () => go((current - 1 + messages.length) % messages.length)
+
+  useEffect(() => {
+    const onMouseMove = (e) => {
+      if (!dragging.current) return
+      const { id, offsetX, offsetY } = dragging.current
+      setPositions(prev => ({ ...prev, [id]: { x: e.clientX - offsetX, y: e.clientY - offsetY } }))
+    }
+    const onTouchMove = (e) => {
+      if (!dragging.current) return
+      e.preventDefault()
+      const touch = e.touches[0]
+      const { id, offsetX, offsetY } = dragging.current
+      setPositions(prev => ({ ...prev, [id]: { x: touch.clientX - offsetX, y: touch.clientY - offsetY } }))
+    }
+    const stopDrag = () => { dragging.current = null }
+
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mouseup', stopDrag)
+    window.addEventListener('touchmove', onTouchMove, { passive: false })
+    window.addEventListener('touchend', stopDrag)
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mouseup', stopDrag)
+      window.removeEventListener('touchmove', onTouchMove, { passive: false })
+      window.removeEventListener('touchend', stopDrag)
+    }
+  }, [])
+
+  const onDragStart = (e, s) => {
+    e.preventDefault()
+    const rect = e.currentTarget.getBoundingClientRect()
+    dragging.current = { id: s.id, offsetX: e.clientX - rect.left, offsetY: e.clientY - rect.top }
+  }
+
+  const onTouchStart = (e, s) => {
+    const touch = e.touches[0]
+    const rect = e.currentTarget.getBoundingClientRect()
+    dragging.current = { id: s.id, offsetX: touch.clientX - rect.left, offsetY: touch.clientY - rect.top }
+  }
+
+  return (
+    <div className="scene">
+      {stickers.map((s, i) => {
+        const pos = positions[s.id]
+        const style = pos
+          ? { position: 'fixed', left: pos.x, top: pos.y, width: s.w, height: s.h, transform: `rotate(${s.rotate})`, cursor: 'grab', zIndex: 20 }
+          : { top: s.top, left: s.left, right: s.right, bottom: s.bottom, width: s.w, height: s.h, transform: `rotate(${s.rotate})`, cursor: 'grab', zIndex: 20 }
+        return (
+          <img
+            key={s.id}
+            src={stickerImgs[i]}
+            alt=""
+            className={`sticker${pos ? ' sticker--dragging' : ''}`}
+            style={style}
+            onMouseDown={(e) => onDragStart(e, s)}
+            onTouchStart={(e) => onTouchStart(e, s)}
+            draggable={false}
+          />
+        )
+      })}
+
+      {/* Center content */}
+      <div className="center">
+        <div className="card-wrapper">
+          <div className="card-stack">
+            <img src={i1} alt="" className="card-photo" draggable={false} />
+            <img src={i2} alt="" className="card-photo-right" draggable={false} />
+            <img src={i9w} alt="" className="card-photo-bottomleft" draggable={false} />
+            <div className={`card${dir ? ` card--exit-${dir}` : ''}`}>
+              <h2 className="card-title">{messages[current].title}</h2>
+              <p className="card-text">{messages[current].text}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="nav">
+          <button className="nav-btn" onClick={goPrev} aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="18 15 12 9 6 15" />
+            </svg>
+          </button>
+          <span className="page-num">{current + 1} / {messages.length}</span>
+          <button className="nav-btn" onClick={goNext} aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default App

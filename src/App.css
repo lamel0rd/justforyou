@@ -1,0 +1,321 @@
+/* ── Scene ── */
+.scene {
+  position: fixed;
+  inset: 0;
+  background-color: #B07BA0;
+  background-image:
+    linear-gradient(rgba(80, 40, 70, 0.25) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(80, 40, 70, 0.25) 1px, transparent 1px);
+  background-size: 38px 38px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── Stickers ── */
+.sticker {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ── Center content ── */
+.center {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  width: 100%;
+  max-width: 380px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* ── Card wrapper ── */
+.card-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 200px;
+}
+
+/* ── Photo anchored to card top ── */
+.card-photo {
+  position: absolute;
+  bottom: 100%;
+  left: 32px;
+  width: 176px;
+  height: auto;
+  display: block;
+  margin-bottom: -12px;
+  z-index: 11;
+  -webkit-user-drag: none;
+}
+
+/* ── Right photo anchored to card ── */
+.card-photo-right {
+  position: absolute;
+  right: -80px;
+  top: 20px;
+  width: 158px;
+  height: auto;
+  display: block;
+  transform: rotate(-8deg);
+  z-index: 11;
+  -webkit-user-drag: none;
+}
+
+/* ── Bottom-left photo anchored to card ── */
+.card-photo-bottomleft {
+  position: absolute;
+  left: -30px;
+  bottom: -40px;
+  width: 140px;
+  height: auto;
+  display: block;
+  transform: rotate(-12deg);
+  z-index: 11;
+  -webkit-user-drag: none;
+}
+
+/* ── Card stack wrapper ── */
+.card-stack {
+  position: relative;
+  width: 100%;
+}
+
+/* Layer 3 — furthest back */
+.card-stack::before {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 7%;
+  right: 7%;
+  height: 100%;
+  background: #141414;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 0;
+}
+
+/* Layer 2 — middle */
+.card-stack::after {
+  content: '';
+  position: absolute;
+  bottom: -11px;
+  left: 3.5%;
+  right: 3.5%;
+  height: 100%;
+  background: #181818;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  z-index: 1;
+}
+
+/* ── Card ── */
+.card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 400px;
+  box-sizing: border-box;
+  background: #1e1e1e;
+  border-radius: 24px;
+  padding: 32px;
+  border: 2.5px solid #ffffff;
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  overflow: hidden;
+  animation: cardIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.card--exit-down {
+  animation: exitDown 0.26s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+.card--exit-up {
+  animation: exitUp 0.26s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(18px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)   scale(1);    }
+}
+@keyframes exitDown {
+  from { opacity: 1; transform: translateY(0)    scale(1);    }
+  to   { opacity: 0; transform: translateY(-18px) scale(0.97); }
+}
+@keyframes exitUp {
+  from { opacity: 1; transform: translateY(0)   scale(1);    }
+  to   { opacity: 0; transform: translateY(18px) scale(0.97); }
+}
+
+.card-title {
+  margin: 0 0 16px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+}
+
+.card-text {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* ── Navigation ── */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s, transform 0.12s, border-color 0.18s;
+  flex-shrink: 0;
+}
+
+.nav-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-btn:hover {
+  background: #f48fb1;
+  border-color: #f48fb1;
+  transform: scale(1.08);
+}
+
+.nav-btn:active {
+  transform: scale(0.94);
+}
+
+.page-num {
+  font-size: 18px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.5px;
+  min-width: 52px;
+  text-align: center;
+}
+
+/* ── Mobile adjustments ── */
+@media (max-width: 480px) {
+  .center {
+    max-width: 340px;
+    padding: 0 16px;
+    gap: 22px;
+  }
+
+  .card-wrapper {
+    padding-top: 172px;
+  }
+
+  .card-photo {
+    width: 152px;
+  }
+
+  .card-photo-right {
+    width: 152px;
+    right: -60px;
+    top: 16px;
+  }
+
+  .card-photo-bottomleft {
+    width: 152px;
+    left: -20px;
+    bottom: -70px;
+  }
+
+  .card {
+    height: 200px;
+    padding: 24px;
+    border-radius: 20px;
+  }
+
+  .card-stack::before {
+    bottom: -18px;
+    left: 6%;
+    right: 6%;
+    border-radius: 20px;
+  }
+
+  .card-stack::after {
+    bottom: -10px;
+    left: 3%;
+    right: 3%;
+    border-radius: 20px;
+  }
+
+  .card-title {
+    font-size: 19px;
+  }
+
+  .card-text {
+    font-size: 15px;
+  }
+
+  .nav-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Stickers: shrink and arrange in two bands (top + bottom) so none overlap the card */
+  .sticker {
+    width: 110px !important;
+    height: 110px !important;
+  }
+
+  /* Top band — two staggered rows (only when not being dragged) */
+  .sticker:not(.sticker--dragging):nth-child(1)  { top: 2% !important;    left: 2% !important;   right: auto !important; bottom: auto !important; }
+  .sticker:not(.sticker--dragging):nth-child(2)  { top: 11% !important;   left: 19% !important;  right: auto !important; bottom: auto !important; }
+  .sticker:not(.sticker--dragging):nth-child(3)  { top: 2% !important;    left: 36% !important;  right: auto !important; bottom: auto !important; }
+  .sticker:not(.sticker--dragging):nth-child(4)  { top: 11% !important;   left: 53% !important;  right: auto !important; bottom: auto !important; }
+  .sticker:not(.sticker--dragging):nth-child(5)  { top: 2% !important;    left: 70% !important;  right: auto !important; bottom: auto !important; }
+  .sticker:not(.sticker--dragging):nth-child(6)  { top: 11% !important;   left: 78% !important;  right: auto !important; bottom: auto !important; }
+
+  /* Bottom band — two staggered rows (only when not being dragged) */
+  .sticker:not(.sticker--dragging):nth-child(7)  { bottom: 2% !important;  left: 2% !important;   right: auto !important; top: auto !important; }
+  .sticker:not(.sticker--dragging):nth-child(8)  { bottom: 11% !important; left: 19% !important;  right: auto !important; top: auto !important; }
+  .sticker:not(.sticker--dragging):nth-child(9)  { bottom: 2% !important;  left: 36% !important;  right: auto !important; top: auto !important; }
+  .sticker:not(.sticker--dragging):nth-child(10) { bottom: 11% !important; left: 53% !important;  right: auto !important; top: auto !important; }
+  .sticker:not(.sticker--dragging):nth-child(11) { bottom: 2% !important;  left: 70% !important;  right: auto !important; top: auto !important; }
+}
+
+@media (max-width: 360px) {
+  .center {
+    max-width: 300px;
+    padding: 0 12px;
+  }
+
+  .card-title {
+    font-size: 17px;
+  }
+
+  .card-text {
+    font-size: 14px;
+  }
+}
