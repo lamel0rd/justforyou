@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import './App.css'
+import cakeImg from './assets/c.png'
 import i1 from './assets/i1.png'
 import i2 from './assets/i2.png'
 import i3 from './assets/i3.png'
@@ -54,10 +55,31 @@ const stickers = [
 ]
 
 function App() {
+  const [phase, setPhase] = useState('intro')
+  const [flashing, setFlashing] = useState(false)
+  const [clicks, setClicks] = useState(0)
+  const [cakePos, setCakePos] = useState({ x: 50, y: 48 })
   const [current, setCurrent] = useState(0)
   const [dir, setDir] = useState(null)
   const [positions, setPositions] = useState({})
   const dragging = useRef(null)
+
+  const handleCakeClick = () => {
+    if (clicks >= 20) return
+    const next = clicks + 1
+    setClicks(next)
+    setCakePos({
+      x: Math.random() * 65 + 8,
+      y: Math.random() * 55 + 12,
+    })
+    if (next === 20) {
+      setTimeout(() => {
+        setFlashing(true)
+        setTimeout(() => setPhase('main'), 500)
+        setTimeout(() => setFlashing(false), 1100)
+      }, 200)
+    }
+  }
 
   const go = (next) => {
     setDir(next > current ? 'down' : 'up')
@@ -109,8 +131,29 @@ function App() {
     dragging.current = { id: s.id, offsetX: touch.clientX - rect.left, offsetY: touch.clientY - rect.top }
   }
 
+  if (phase === 'intro') {
+    return (
+      <>
+        <div className="scene">
+          <p className="cake-counter">{clicks} / 20</p>
+          <img
+            src={cakeImg}
+            alt="cake"
+            className="cake-img"
+            style={{ left: `${cakePos.x}%`, top: `${cakePos.y}%` }}
+            onClick={handleCakeClick}
+            draggable={false}
+          />
+        </div>
+        {flashing && <div className="flash-overlay" />}
+      </>
+    )
+  }
+
   return (
+    <>
     <div className="scene">
+      {flashing && <div className="flash-overlay" />}
       {stickers.map((s, i) => {
         const pos = positions[s.id]
         const style = pos
@@ -170,6 +213,7 @@ function App() {
         </div>
       </div>
     </div>
+    </>
   )
 }
 
