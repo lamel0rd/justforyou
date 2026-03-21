@@ -60,7 +60,7 @@
 /* ── Right photo anchored to card ── */
 .card-photo-right {
   position: absolute;
-  right: -80px;
+  right: -120px;
   top: 20px;
   width: 158px;
   height: auto;
@@ -73,9 +73,9 @@
 /* ── Bottom-left photo anchored to card ── */
 .card-photo-bottomleft {
   position: absolute;
-  left: -30px;
-  bottom: -40px;
-  width: 140px;
+  left: -70px;
+  bottom: -30px;
+  width: 100px;
   height: auto;
   display: block;
   transform: rotate(-12deg);
