@@ -17,23 +17,23 @@ const stickerImgs = [i3, i4, i6, i10w, i11w, i12w, i13w]
 const messages = [
   {
     title: "Happy Birthday, OJAS! ",
-    text: "msg1",
+    text: "",
   },
   {
-    title: "t1",
-    text: "msg2",
+    title: "you are dangerously pyari, ngl :)",
+    text: "",
   },
   {
-    title: "t2",
-    text: "msg3",
+    title: "u  r full of life and its just feels awesome to be around!",
+    text: "",
   },
   {
-    title: "t3",
-    text: "msg4",
+    title: "OJAS, just keep that \"brightness\" intact as always",
+    text: "",
   },
   {
-    title: "t4",
-    text: "msg4",
+    title: "i just hope i get to make you smile every day ;)",
+    text: "",
   },
 ]
 
