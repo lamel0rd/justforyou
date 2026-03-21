@@ -296,8 +296,8 @@
 
   /* Stickers: shrink and arrange in two bands (top + bottom) so none overlap the card */
   .sticker {
-    width: 110px !important;
-    height: 110px !important;
+    width: 126px !important;
+    height: 126px !important;
   }
 
   /* Top band — 5 stickers */
