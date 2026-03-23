@@ -25,19 +25,19 @@ const messages = [
     text: "",
   },
   {
-    title: "you are dangerously pyari, ngl :)",
+    title: "ngl, talking to you has been one of the better parts of the days lately!",
     text: "",
   },
   {
-    title: "u  r full of life and its just feels awesome to be around!",
+    title: "you are so full of life and it just feels magical to be around.",
     text: "",
   },
   {
-    title: "OJAS, just keep that \"brightness\" intact as always",
+    title: "never lose that light you naturally carry and just like your name, \"OJAS\" stay bright always :)",
     text: "",
   },
   {
-    title: "i just hope i get to make you smile every day ;)",
+    title: "i just hope i get to make you smile every day :)",
     text: "",
   },
 ]
@@ -201,7 +201,13 @@ function App() {
             />
 
             <div className={`card${dir ? ` card--exit-${dir}` : ''}`}>
-              <h2 className="card-title">{messages[current].title}</h2>
+              <h2 className="card-title">
+                {messages[current].title.split('OJAS').map((part, i, arr) => (
+                  i < arr.length - 1
+                    ? <>{part}<span style={{ color: '#f48fb1' }}>OJAS</span></>
+                    : part
+                ))}
+              </h2>
               <p className="card-text">{messages[current].text}</p>
             </div>
           </div>
